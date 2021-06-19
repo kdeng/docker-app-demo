@@ -52,4 +52,28 @@ public class Application {
   void favicon() {
   }
 
+  @GetMapping("/log/error")
+  String error() {
+    log.error("Hitting error");
+    return "Error";
+  }
+
+  @GetMapping("/log/warning")
+  String warning() {
+    log.warn("waring message");
+    return "warning";
+  }
+
+  @GetMapping("/log/info")
+  String info() {
+    log.info("info message");
+    return "info";
+  }
+
+  @GetMapping("/log/debug")
+  String debug() {
+    log.debug("debug");
+    return "debug";
+  }
+
 }
