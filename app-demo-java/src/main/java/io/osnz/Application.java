@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.IOException;
 
 /**
  * @author Kefeng Deng (deng@51any.com)
@@ -37,7 +39,7 @@ public class Application {
   public ResponseEntity<Map> index(HttpServletRequest request, @RequestHeader HttpHeaders headers) {
     log.info("Server V2 received request URI : {}", request.getRequestURI());
     Map<String, Object> response = new HashMap<>();
-    response.put("Version", "V2");
+    response.put("Version", "V3");
     response.put("URI", request.getRequestURI());
     response.put("URL", request.getRequestURL().toString());
     response.put("Method", request.getMethod());
@@ -74,6 +76,20 @@ public class Application {
   String debug() {
     log.debug("debug");
     return "debug";
+  }
+
+  @GetMapping("/response-error/404")
+  void notFound(HttpServletResponse response) throws IOException {
+    response.setHeader("Custom-Header", "foo");
+    response.setStatus(404);
+    response.getWriter().println("Hello World!");
+  }
+
+  @GetMapping("/response-error/500")
+  void internalService(HttpServletResponse response) throws IOException {
+    response.setHeader("Custom-Header", "foo");
+    response.setStatus(500);
+    response.getWriter().println("Hello World!");
   }
 
 }
