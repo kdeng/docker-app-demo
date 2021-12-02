@@ -14,6 +14,7 @@ app.get('/*', (req, res) => {
   res
     .status( terminating ? 500 : 200 )
     .json({
+      version: 'v2',
       url: req.url,
       originalUrl: req.originalUrl,
       baseUrl: req.baseUrl,
